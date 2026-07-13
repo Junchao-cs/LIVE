@@ -1,0 +1,30 @@
+LIVE: Long-horizon Interactive Video World Modeling
+Copyright 2026 the LIVE authors
+
+This distribution includes or adapts components from Stability AI Generative
+Models, CompVis Latent Diffusion, NVIDIA diffusion implementations, OpenAI
+diffusion implementations, LPIPS/PerceptualSimilarity, pytorch-fid, Karpathy's
+deep-vector-quantization, and Black Forest Labs FLUX. Their original copyright
+notices and license terms remain applicable.
+
+Stability AI Generative Models components are distributed under the MIT
+license in licenses/Stability-AI-MIT.txt. CompVis Latent Diffusion components
+are distributed under the MIT license in licenses/CompVis-LDM-MIT.txt.
+
+The dataset loader was adapted from Boyuan Chen's research template and is
+distributed under the MIT license in licenses/research-template-MIT.txt.
+
+The diffusion files that carry NVIDIA Apache-2.0 headers retain those headers.
+The remaining OpenAI diffusion-derived files are distributed under the MIT
+license in licenses/OpenAI-MIT.txt.
+
+The quantizer code credited to Andrej Karpathy is distributed under the MIT
+license in licenses/Karpathy-DVQ-MIT.txt.
+
+The MLP embedder adapted from Black Forest Labs FLUX and Martin Seitzer's
+pytorch-fid inception implementation are distributed under Apache License 2.0;
+see the root LICENSE file.
+
+The LPIPS implementation in tvae/taming/lpips.py is derived from
+https://github.com/richzhang/PerceptualSimilarity and is distributed under its
+BSD license. See licenses/LPIPS-BSD-2-Clause.txt.

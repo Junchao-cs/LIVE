@@ -1,0 +1,150 @@
+model:
+  base_learning_rate: 8.0e-5
+  target: tvideo.mc.models.live.LIVE
+  params:
+    ckpt_path: checkpoints/nfd-df-re10k.ckpt
+    scale_factor: 0.2325
+    scheduler_warmup_steps: 10000
+    compile_tokenizer: true
+    compile_model: true
+    enable_tokenizer_fp16_autocast: false
+    en_and_decode_n_samples_a_time: 8
+    is_latent_input: false
+    video_key: npy
+    max_frames: 32
+    val_num_total_frames: 32
+    save_fd: outputs/validation
+    use_plucker: true
+    enable_cycle_forcing: true
+    enable_kv_cache: true
+    # Retained from the recorded run config. The corresponding sampling lines
+    # are disabled in the released training implementation.
+    p_set_t_clean: 0.6
+
+    tokenizer_config:
+      target: tvae.models.mar_vae.AutoencodingLegacy
+      params:
+        embed_dim: 16
+        ch_mult: [1, 1, 2, 2, 4]
+        regularizer_config:
+          target: tvae.modules.regularizers.DiagonalGaussianRegularizer
+        ckpt_path: checkpoints/vae-kl16.ckpt
+        ckpt_path2: checkpoints/vae-kl16.ckpt
+        ignore_keys: [metrics, loss, perceptual_loss]
+
+    network_config:
+      target: tvideo.mc.modules.df.transformer_cache.Transformer
+      params:
+        patch_size: [1, 2, 2]
+        in_channels: 16
+        out_channels: 16
+        dim: 1536
+        n_layer: 18
+        n_head: 24
+        n_local_heads: 24
+        attn_mask_type: block
+        attn_impl: sdpa
+        sdpa_backends: [efficient_attention]
+        pe_type: rope_hy
+        input_h: 16
+        input_w: 16
+        input_t: 32
+        rope_dim: [8, 28, 28]
+        enable_liger: false
+        use_plucker: true
+        enable_gradient_checkpointing: false
+
+    diffusion_config:
+      train_sampling_steps: 1000
+      noise_schedule: linear_flow
+      predict_v: true
+      learn_sigma: false
+      pred_sigma: false
+      snr: false
+      flow_shift: 3.0
+      weighting_scheme: logit_normal
+      logit_mean: 0.0
+      logit_std: 1.0
+
+    optimizer_config:
+      target: torch.optim.AdamW
+      params:
+        betas: [0.9, 0.99]
+        weight_decay: 0.002
+
+data:
+  target: tvideo.mc.data.re10k_datamodule.RealEstate10KDataModule
+  params:
+    train:
+      target: tvideo.mc.data.re10k_adapter.RealEstate10KTrain
+      params:
+        save_dir: data/real-estate-10k
+        n_frames: 32
+        sampling_interval: 2
+        video_H: 256
+        video_W: 256
+        # Kept in sync with loader.batch_size for main.py's LR bookkeeping.
+        batch_size: 8
+      loader:
+        batch_size: 8
+        num_workers: 12
+        shuffle: true
+
+    validation:
+      target: tvideo.mc.data.re10k_adapter.RealEstate10KValidation
+      params:
+        save_dir: data/real-estate-10k-mini
+        val_n_frames: 32
+        sampling_interval: 2
+        video_H: 256
+        video_W: 256
+        batch_size: 4
+      loader:
+        batch_size: 4
+        num_workers: 8
+        shuffle: false
+
+lightning:
+  strategy:
+    target: lightning.pytorch.strategies.DDPStrategy
+    params:
+      find_unused_parameters: true
+
+  modelcheckpoint:
+    params:
+      every_n_train_steps: 500
+      monitor: step
+      save_top_k: 40
+      mode: max
+      save_last: false
+
+  callbacks:
+    image_logger:
+      target: tvideo.logger.ImageVideoLogger
+      params:
+        disabled: true
+        rescale: true
+        enable_autocast: true
+        batch_frequency: 1000
+        max_samples: 1
+        increase_log_steps: false
+        log_before_first_step: true
+        video_fps: 20
+        log_videos_kwargs:
+          N: 1
+          log_num_total_frames: 32
+
+  trainer:
+    precision: bf16-mixed
+    devices: auto
+    num_nodes: 1
+    benchmark: true
+    gradient_clip_algorithm: norm
+    gradient_clip_val: 1.0
+    num_sanity_val_steps: 1
+    val_check_interval: 500
+    check_val_every_n_epoch: null
+    limit_val_batches: 8
+    log_every_n_steps: 50
+    accumulate_grad_batches: 2
+    max_steps: 100000

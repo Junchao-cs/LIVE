@@ -1,0 +1,46 @@
+cff-version: 1.2.0
+message: "If you use LIVE, please cite our paper."
+title: "LIVE: Long-horizon Interactive Video World Modeling"
+type: software
+authors:
+  - family-names: Huang
+    given-names: Junchao
+  - family-names: Ye
+    given-names: Ziyang
+  - family-names: Hu
+    given-names: Xinting
+  - family-names: He
+    given-names: Tianyu
+  - family-names: Zhang
+    given-names: Guiyu
+  - family-names: Shi
+    given-names: Shaoshuai
+  - family-names: Bian
+    given-names: Jiang
+  - family-names: Jiang
+    given-names: Li
+date-released: 2026-07-13
+url: "https://github.com/Junchao-cs/LIVE"
+repository-code: "https://github.com/Junchao-cs/LIVE"
+preferred-citation:
+  type: article
+  title: "LIVE: Long-horizon Interactive Video World Modeling"
+  authors:
+    - family-names: Huang
+      given-names: Junchao
+    - family-names: Ye
+      given-names: Ziyang
+    - family-names: Hu
+      given-names: Xinting
+    - family-names: He
+      given-names: Tianyu
+    - family-names: Zhang
+      given-names: Guiyu
+    - family-names: Shi
+      given-names: Shaoshuai
+    - family-names: Bian
+      given-names: Jiang
+    - family-names: Jiang
+      given-names: Li
+  year: 2026
+  url: "https://arxiv.org/abs/2602.03747"

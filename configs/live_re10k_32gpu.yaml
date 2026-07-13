@@ -1,0 +1,23 @@
+# Merge this after live_re10k.yaml to recover the paper's 32-GPU layout.
+model:
+  base_learning_rate: 4.0e-5
+
+data:
+  params:
+    train:
+      params:
+        batch_size: 2
+      loader:
+        batch_size: 2
+        num_workers: 4
+    validation:
+      params:
+        batch_size: 2
+      loader:
+        batch_size: 2
+        num_workers: 4
+
+lightning:
+  trainer:
+    num_nodes: 4
+    accumulate_grad_batches: 1
