@@ -233,6 +233,23 @@ on the full dataset can take time. The standalone evaluator uses the same
 18-step generation path and frame selection as the recorded distributed
 evaluation, without requiring a multi-node Lightning launch.
 
+### Paper Metric Implementation
+
+The quantitative metrics reported in the paper were computed with the external
+[common_metrics_on_video_quality](https://github.com/CIntellifusion/common_metrics_on_video_quality)
+toolkit:
+
+```bash
+git clone git@github.com:CIntellifusion/common_metrics_on_video_quality.git
+```
+
+For exact paper-metric reproduction, generate predictions and ground-truth
+videos on the complete evaluation split with the protocol above, then evaluate
+them with that toolkit following its README. The PSNR, SSIM, LPIPS, and optional
+FID calculations built into `inference_evaluate.py` are convenient local
+diagnostics; they are not the metric implementation used to produce the
+paper's reported numbers.
+
 ## Reproducibility Notes
 
 - Architecture: 774M DiT with Plucker camera conditioning.
