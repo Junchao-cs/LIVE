@@ -49,7 +49,7 @@ from einops import rearrange
 
 
 from sgm.util import print0
-from tvideo.mc.modules.df.attn_mask import (
+from tvideo.mc.modules.attn_mask import (
     create_causal_mask_sdpa,
     create_block_causal_mask_sdpa,
     create_causal_mask_flex,
@@ -1083,7 +1083,7 @@ class Transformer(nn.Module):
                  enable_cycle_forcing: bool = False,
     ):
         super().__init__()
-        self.print_prefix = "[bold magenta]\[tvideo.mc.modules.df.transformer][Transformer][/bold magenta]"
+        self.print_prefix = "[bold magenta]\[tvideo.mc.modules.transformer_cache][Transformer][/bold magenta]"
 
         self.use_plucker = use_plucker
         self.enable_cycle_forcing = enable_cycle_forcing

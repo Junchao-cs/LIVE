@@ -19,9 +19,9 @@ from sgm.util import (default, print0, get_obj_from_str, instantiate_from_config
 from sgm.modules.distributions.distributions import DiagonalGaussianDistribution
 
 from tvideo.utils import EinopsWrapper
-from tvideo.mc.modules.df.flow import create_diffusion
-from tvideo.mc.modules.df.flow.respace import compute_density_for_timestep_sampling
-from tvideo.mc.modules.df.flow.dpm_solver import NoiseScheduleFlow
+from tvideo.mc.modules.flow import create_diffusion
+from tvideo.mc.modules.flow.respace import compute_density_for_timestep_sampling
+from tvideo.mc.modules.flow.dpm_solver import NoiseScheduleFlow
 
 import os
 import numpy as np

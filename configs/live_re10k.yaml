@@ -33,7 +33,7 @@ model:
         ignore_keys: [metrics, loss, perceptual_loss]
 
     network_config:
-      target: tvideo.mc.modules.df.transformer_cache.Transformer
+      target: tvideo.mc.modules.transformer_cache.Transformer
       params:
         patch_size: [1, 2, 2]
         in_channels: 16

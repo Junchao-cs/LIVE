@@ -276,7 +276,7 @@ tvae/                     KL-VAE implementation used by the release
 datasets/datasets_short_inf/  Re10K video and pose loader
 tvideo/mc/data/               Re10K adapter and Lightning data module
 tvideo/mc/models/          LIVE wrapper and checkpoint-compatible core
-tvideo/mc/modules/df/      DiT, attention masks, and flow diffusion modules
+tvideo/mc/modules/         DiT, attention masks, and flow diffusion modules
 main.py                    Training and resume entry point
 inference_evaluate.py      Inference, video export, and metric evaluation
 ```
